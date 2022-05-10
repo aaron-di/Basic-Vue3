@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2-1. Application Instance</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+</body>
+<script>
+    // createApp 表示创建一个 Vue 应用，存储到 app 变量中
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: 'Hello World',
+            }
+        },
+        template: "<div>{{ message }}</div>"
+    });
+    // vm 代表的是 Vue 应用的根组件实例
+    const vm = app.mount('#root');
+</script>
+</html>
