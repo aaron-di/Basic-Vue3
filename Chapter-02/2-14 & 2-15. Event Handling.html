@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2-14. Event Handling</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    // 事件修饰符：stop, prevent, capture, self, once, passive
+    const app = Vue.createApp({
+        data() {
+            return {
+                counter: 0
+            }
+        },
+        methods: {
+            handleDivClick() {
+                alert('div clicked');
+            },
+            handleBtnClick(num, event) {
+                console.log(event);
+                this.counter += num;
+            },
+        },
+        template: /* html */`
+            <div>
+                <div @click.self="handleDivClick">
+                    {{ counter }}
+                    <button @click="handleBtnClick(2, $event)">button</button>
+                </div>
+            </div>
+        `
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>
