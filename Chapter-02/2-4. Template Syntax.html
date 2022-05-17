@@ -14,17 +14,33 @@
     const app = Vue.createApp({
         data() {
             return {
-                message: '<strong>hello world</strong>',
+                // message: '<strong>hello world</strong>',
+                message: 'hello world',
                 disable: true,
-                show: true
+                show: false,
+                name: 'title',
+                event: 'mouseenter'
             }
         },
+        methods: {
+            handleClick: function() {
+                alert('click');
+            },
+            // handleClick: function(e) {
+            //     e.preventDefault();
+            // }
+        },
+        // template: /* html */`<div @[event]="handleClick" :[name]="message">{{ message }}</div>`
+        template: /* html */`<form action="https://www.aarondi.com/" @click.prevent="handleClick">
+                                <button type="submit">提交</button>
+                            </form>`
+
         // template: /* html */`<div v-html="message"></div>`
         // template: /* html */`<div v-bind:title="message">hello world</div>`
         // template: /* html */`<input v-bind:disabled="disable" />
         // template: /* html */`<div>{{ Math.max(1, 2) }}</div>`
         // template: /* html */`<div v-once>{{ message }}</div>`
-        template: /* html */`<div v-if="show">{{ message }}</div>`
+        // template: /* html */`<div v-if="show">{{ message }}</div>`
     });
     const vm = app.mount('#root');
 </script>
