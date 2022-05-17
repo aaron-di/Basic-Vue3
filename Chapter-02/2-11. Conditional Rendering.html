@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>2-11. Conditional Rendering</title>
     <script src="https://unpkg.com/vue@3"></script>
 </head>
 <body>
@@ -14,11 +14,19 @@
     const app = Vue.createApp({
         data() {
             return {
-                
+                show: true,
+                conditionOne: false,
+                conditionTwo: true
             }
         },
         template: /* html */`
+            <div v-if="show">Hello World</div>
 
+            <div v-if="conditionOne">c1</div>
+            <div v-else-if="conditionTwo">c2</div>
+            <div v-else>else</div>
+
+            <div v-show="show">Hello World</div>
         `
     });
 
