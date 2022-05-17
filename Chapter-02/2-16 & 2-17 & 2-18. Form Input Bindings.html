@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2-16 & 2-17 & 2-18. Form Input Bindings</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    // input, textarea, checkbox, radio, select
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: false,
+                options: [{
+                    text: 'A', value: 'A',
+                },{
+                    text: 'B', value: 'B',
+                },
+                {
+                    text: 'C', value: 'C',
+                }]
+            }
+            
+        },
+        template: /* html */`
+            <div>
+                {{ typeof message }}
+                <input v-model.trim="message" type="number"/> 
+            </div>
+        `
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>
