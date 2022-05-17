@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2-15. Event Handling</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    // 事件修饰符：stop, prevent, capture, self, once, passive
+    // 按键修饰符：enter, tab, delete, esc, up, down, left, right
+    // 鼠标修饰符：left, right, middle
+    // 精确修饰符：exact
+    const app = Vue.createApp({
+        methods: {
+            handleKeyDown() {
+                console.log('keydown');
+            }
+        },
+        template: /* html */`
+            <div>
+                <input @keydown.ctrl.exact="handleKeyDown">
+            </div>
+        `
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>
