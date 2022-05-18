@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-1 & 5-2. Mixin</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    // mixin 混入
+    // 组件 data, methods 优先级高于 mixin data, methods 优先级
+    // 生命周期函数， 限制性mixin的，再执行组件的
+    // 自定义的属性，组件中的优先级高于 mixin 属性的优先级
+    const myMixin = {
+        num: 999,
+        data() {
+            return {
+                number: 2,
+                count: 222,
+            }
+        },
+    }
+
+    const app = Vue.createApp({
+        num: 1000,
+        data() {
+            return {
+                number: 1,
+            }
+        },
+        mixins: [myMixin],
+        template: /* html */`
+            <div>
+                <div>{{ this.$options.num }}</div>
+                <div>{{ number }}</div>
+                <div>{{ count }}</div>
+            </div>
+        `
+    });
+    
+    app.config.optionMergeStrategies.number = (mixinVal, appValue) => {
+        return mixinVal || appValue;
+    }
+
+    const vm = app.mount('#root');
+</script>
+</html>
