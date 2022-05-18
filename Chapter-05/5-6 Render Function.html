@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-6 Render Function</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    const app = Vue.createApp({
+        template: /* html */`
+            <my-title :level="3">
+                hello
+            </my-title>
+        `
+    });
+
+    app.component('my-title', {
+        props: ['level'],
+        render() {
+            const { h } = Vue;
+            return h('h' + this.level, {}, [
+                this.$slots.default(),
+                h('4', {}, 'aaron')
+            ])
+        }
+    })
+
+    const vm = app.mount('#root');
+</script>
+</html>
