@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4-2. Transition</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <style>
+        @keyframes shake {
+            0% {
+                transform: translateX(-100px);
+            }
+            50% {
+                transform: translateX(-50px);
+            }
+            100% {
+                transform: translateX(50px);
+            }
+        }
+
+        .hello-enter-active {
+            animation: shake 2s;
+        }
+
+        .hello-leave-active {
+            transition: shake 2s;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    // 单元素，单组件的入场出场动画
+    const app = Vue.createApp({
+        data() {
+            return {
+                show: false
+            }
+        },
+        methods: {
+            handleClick() {
+                this.show = !this.show;
+            },
+            handleBeforeEnter(el) {
+                el.style.color = "red";
+            },
+            handleEnterActive(el, done) {
+                const animation = setInterval(() => {
+                    const color = el.style.color;
+                    if (color === 'red') {
+                        el.style.color = 'green';
+                    } else {
+                        el.style.color = 'red';
+                    }
+                }, 1000);
+                setTimeout(() => {
+                    clearInterval(animation);
+                    done();
+                }, 5000);
+            },
+            handleEnterEnd() {
+                alert(123);
+            }
+        },
+        template: /* html */`
+            <div>
+                <transition 
+                    :css="false"
+                    @before-enter="handleBeforeEnter"
+                    @enter="handleEnterActive"
+                    @after-enter="handleEnterEnd"
+                >
+                    <div v-show="show">hello world</div>
+                </transition>
+                <button @click="handleClick">切换</button>
+            <div>
+        `
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>
