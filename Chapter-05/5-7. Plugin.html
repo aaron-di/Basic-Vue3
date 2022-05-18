@@ -4,67 +4,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5-8. Plugin2</title>
+    <title>5-7. Plugin</title>
     <script src="https://unpkg.com/vue@3"></script>
 </head>
 <body>
     <div id="root"></div>
 </body>
 <script>
-    // 对数据做校验的插件
+    // plugin 插件，把通用型的功能封装起来
+    const myPlugin = {
+        install(app, options) {
+            app.provide('name', 'aaron di');
+            app.directive('focus', {
+                mounted(el) {
+                    el.focus();
+                }
+            });
+            app.mixin({
+                mounted() {
+                    console.log('mixin');
+                }
+            });
+            app.config.globalProperties.$sayHello = 'Hello World';
+            console.log(app, options);
+        }
+    }
+
     const app = Vue.createApp({
-        data() {
-            return {
-                name: 'aaron',
-                age: 21,
-            }
-        },
-        rules: {
-            age: {
-                validate: age => age > 25,
-                message: 'too young'
-            },
-            name: {
-                validate: name => name.length >= 4,
-                message: 'name too short'
-            },
-        },
         template: /* html */`
-            <div>name:{{ name }}, age:{{ age }}</div>
+            <my-title />
         `
     });
 
-    const validatorPlugin = (app, options) => {
-        app.mixin({
-            created() {
-                for (let key in this.$options.rules) {
-                    const item = this.$options.rules[key];
-                    this.$watch(key, (value) => {
-                        console.log(value);
-                        const result = item.validate(value);
-                        if (!result) console.log(item.message);
-                    })
-                }
-                console.log('mixin ready');
-            }
-        });
-    }
+    app.component('my-title', {
+        inject: ['name'],
+        mounted() {
+            console.log(this.$sayHello);
+        },
+        template: `<div>{{ name }}<input v-focus /></div>`
+    })
 
-    app.use(validatorPlugin);
-
-    // app.mixin({
-    //     created() {
-    //         for (let key in this.$options.rules) {
-    //             const item = this.$options.rules[key];
-    //             this.$watch(key, (value) => {
-    //                 console.log(value);
-    //                 const result = item.validate(value);
-    //                 if (!result) console.log(item.message);
-    //             })
-    //         }
-    //         console.log('mixin ready');
-    //     }
-    // });
+    app.use(myPlugin, {name: 'aaron'})
 
     const vm = app.mount('#root');
 </script>
