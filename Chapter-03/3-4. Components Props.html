@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                num: () => { alert(123) },
+            }
+        },
+        template: /* html */`
+            <div>
+                <test :content="num"/>
+            </div>
+        `
+    });
+
+    // String, Boolean, Array, Object, Function, Symbol
+    // required 必填
+    // default 默认值
+    // validator 校验
+    app.component('test', {
+        props: {
+            content: Function,
+        },
+        methods: {
+            handleClick() {
+                alert(456);
+                this.content();
+            }
+        },
+        template: `<div @click="this.handleClick">{{ typeof content }}</div>`
+    })
+
+    const vm = app.mount('#root');
+</script>
+</html>
