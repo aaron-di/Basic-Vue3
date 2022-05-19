@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>6-5. context</title>
     <script src="https://unpkg.com/vue@3"></script>
 </head>
 <body>
@@ -13,9 +13,20 @@
 <script>
     const app = Vue.createApp({
         template: /* html */`
-
-        `
+           <child app='app'>parents</child>
+        `,
     });
+    app.component('child', {
+        template: `
+            <div>child</div>
+        `,
+        setup(props, context) {
+            const { attrs, slots, emit } = context;
+            console.log(attrs.app); // none-Props 属性
+            console.log(slots);
+            return { }
+        }
+    })
 
     const vm = app.mount('#root');
 </script>
