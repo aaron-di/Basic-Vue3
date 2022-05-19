@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6-9 & 6-10. watch & watchEffect</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    const app = Vue.createApp({
+        setup() {
+            const { reactive, watch, watchEffect, toRefs } = Vue;
+            const nameObj = reactive({
+                name: 'aaron', lastName: 'di'
+            });
+            // 具备一定的lazy
+            // 参数可以拿到原始和当前值
+            // 可以侦听多个数据变化，用一个侦听器承载
+            watch([() => nameObj.name, () => nameObj.lastName], ([curName, curLast], [prevName, prevLast]) => {
+                console.log('watch', curName, prevName, '---', curLast, prevLast);
+            }, { immediate: true })
+            
+            // 立即执行，没有惰性，immediate
+            // 不需要传递要侦听的内容，自动会感知代码依赖，不需要传递很多参数，只需要传递一个回调函数
+            // 不能获取之前数据的值
+            const stop = watchEffect(() => {
+                console.log(nameObj.name);
+                console.log(nameObj.lastName);
+                setTimeout(() => {
+                    stop();
+                }, 5000);
+            })
+
+            const { name, lastName } = toRefs(nameObj);
+
+            return { name, lastName }
+        },
+        template: /* html */`
+            <div>
+                <div>
+                    Name: <input v-model="name">
+                </div>
+                <div>
+                    Name is {{ name }}
+                </div>
+                <div>
+                    LastName: <input v-model="lastName">
+                </div>
+                <div>
+                    LastName is {{ lastName }}
+                </div>
+            </div>
+        `,
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>
