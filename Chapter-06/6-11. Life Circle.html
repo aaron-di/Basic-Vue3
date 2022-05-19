@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6-11. Life Circle</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    const app = Vue.createApp({
+        // 没有 beforeCreated Created
+        // 多了 onRenderTracked, onRenderTriggered
+        setup() {
+            const { ref, onBeforeMount, onMounted, onRenderTracked, onRenderTriggered } = Vue;
+            onBeforeMount(() => {
+                console.log('onBeforeMount');
+            });
+            // 每次渲染后重新收集响应式依赖
+            onRenderTracked(() => {
+                console.log('onRenderTracked');
+            })
+            // 每次触发页面重新渲染时执行
+            onRenderTriggered(() => {
+                console.log('onRenderTrigger');
+            })
+            return { };
+        },
+        template: /* html */`
+            <div>
+                Hello World!
+            </div>
+        `
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>
