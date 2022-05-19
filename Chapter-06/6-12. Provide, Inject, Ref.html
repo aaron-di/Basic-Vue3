@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6-12. Provide, Inject, Ref</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    // provide, inject
+    // const app = Vue.createApp({
+    //     setup() {
+    //         const { provide, ref, readonly } = Vue;
+    //         const name = ref('di');
+    //         provide('name', readonly(name));
+    //         provide('changeName', (value) => {
+    //             name.value = value;
+    //         })
+    //         return { }
+    //     },
+    //     template: /* html */`
+    //         <div>
+    //             <child />
+    //         </div>
+    //     `
+    // });
+
+    // app.component('child', {
+    //     setup() {
+    //         const { inject } = Vue;
+    //         const name = inject('name');
+    //         const changeName = inject('changeName')
+    //         const handleClick = () => {
+    //             // name.value = 'aaron';
+    //             changeName('aaron');
+    //         }
+    //         return { name, handleClick };
+    //     },
+    //     template: '<div @click="handleClick">{{ name }}</div>'
+    // })
+
+    // CompositionAPI 的语法下，获取真实的 DOM 元素节点
+    const app = Vue.createApp({
+        setup() {
+            const { ref, onMounted } = Vue;
+            const hello = ref(null);
+            onMounted(() => {
+                console.log(hello.value);
+            })
+            return { hello }
+        },
+        template: /* html */`
+            <div>
+                <div ref="hello">Hello World</div>
+            </div>
+        `
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>
